@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-
+// 在开发环境中还是会报错，但是如果打包之后就能够正确的识别边界，正确的进行错误的渲染
 class ErrorComponent extends Component {
     constructor() {
         super();
@@ -28,9 +28,9 @@ class ErrorComponent extends Component {
 
 export class TestError extends Component {
     render() {
-
+        console.log(test);
         const test = 'test';
-        
+
         return (
             <>
                 testerror
