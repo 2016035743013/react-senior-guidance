@@ -1,83 +1,54 @@
+import React, { Component } from 'react'
 
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import React, { Suspense, lazy } from 'react';
 
-// const {Consumer, Provider} = React.createContext('light');
-const ThemeContext = React.createContext('light');
-const UserContext = React.createContext('useragent');
-class Child extends React.PureComponent {
-    // static contextType = UserContext;
-    // static contextType = ThemeContext;
-    render() {
-        console.log(this.context);
-        return (
-            <div>
-                {
-                    <ThemeContext.Consumer>
-                        {
-                            context => {
-                                return (
-                                    <UserContext.Consumer>
-                                        {
-                                            val => { 
-                                                return (
-                                                    <span>{val.user}</span>
-                                                )
-                                            }
-                                        }
-                                    </UserContext.Consumer>
-                                )
-                            }
-                        }
-                    </ThemeContext.Consumer>
-                }
-            </div>
-        )
-    }
-    handleChange = () => {
-        this.context.handle('test');
-    }
-    componentDidMount() {
-    }
-}
-
-class Parent extends React.PureComponent {
-    static contextType = ThemeContext;
-    render() {
-        console.log(this.context);
-        return (
-            <div>
-                <Child />
-            </div>
-        )
-    }
-}
-
-class App extends React.PureComponent {
+class ErrorComponent extends Component {
     constructor() {
         super();
-        this.handle = this.handle.bind(this);
         this.state = {
-            name: 'zhang sheng bin '
+            hasError: false
         }
     }
-    handle(val) {
-        console.log(val);
-        this.setState({
-            name: 'cjhcj'
-        })
+    static getDerivedStateFromError(error) {
+        return {
+            hasError: true
+        }
     }
+    componentDidCatch(error, errorInfo) {
+        console.log(error, errorInfo);
+    }
+
     render() {
+        if (this.state.hasError) {
+            // 你可以自定义降级后的 UI 并渲染
+            return <h1>Something went wrong.</h1>;
+        }
+        return this.props.children;
+    }
+}
+
+export class TestError extends Component {
+    render() {
+
+        const test = 'test';
+        
         return (
-            <div>
-                <UserContext.Provider value={{ user: 'user' }}>
-                    <ThemeContext.Provider value={{ name: this.state.name, handle: this.handle }}>
-                        <Parent />
-                    </ThemeContext.Provider>
-                </UserContext.Provider>
-            </div>
+            <>
+                testerror
+            </>
         )
     }
 }
 
-export default App;
+export default class App extends Component {
+    constructor() {
+        super();
+    }
+    
+    render() {
+        return (
+            <ErrorComponent>
+                <TestError></TestError>
+            </ErrorComponent>
+        )
+    }    
+}
