@@ -1,9 +1,19 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 
 
 
-// 你可以直接获取 DOM button 的 ref：
-
+function TrItems(props) {
+    return (
+        <Fragment>
+            <td>
+                hello
+            </td>
+            <td>
+                world
+            </td>
+        </Fragment>
+    )
+}
 
 export default class App extends Component {
     constructor() {
@@ -11,14 +21,15 @@ export default class App extends Component {
     }
 
     render() {
-        this.inputRef = React.createRef();
+
         return (
-            <>
-                <input type="text" ref={this.inputRef}/>
-            </>
+            <table border='1px solid black'>
+                <tr>
+                    <TrItems />
+                </tr>
+            </table>
         )
     }
     componentDidMount() {
-        console.log(this.inputRef)
     }
 }
