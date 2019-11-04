@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 
-import Another from './Another'
+import { CartList } from './components/index'
 class App extends Component {
     constructor() {
         super();
@@ -10,7 +10,7 @@ class App extends Component {
 
         return (
             <div>
-                <Another name='another' />
+                <CartList cartList = {this.props.store} />
             </div>
         )
     }
